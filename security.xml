@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.security.org/schema/security"
+             xmlns:beans="http://www.springframeworkframework.org/xml/schemas/beans"
+             xmlns:context="http://www.springframeworkframework.org/context"
+             xsi:schemaLocation="http://www.springframework.security.org/schema/security http://www.springframeworksecurity.org/xsd/security-5.3.0.xsd">
+
+    <beans:bean id="userDetailsService" class="com.example.CustomUserDetailsService">
+        <beans:property name="database" ref="h2Database"/>
+    </beans:bean>
+
+    <security:authentication-manager>
+        <security:anonymous-to-user-filter/>
+    </security:authentication-manager>
+
+    <security:context-patterns>
+        <security:pattern-value>/login</security:pattern-value>
+        <security:pattern-value>/logout</security:pattern-value>
+    </security:context-patterns>
+
+    <security:components>
+        <security:form-login login-page="/login"
+                             username-parameter="email"
+                             password-parameter="password"
+                             authentication-failure-url="/login/error"
+                             default-target-url="/home"/>
+    </security:components>
+
+    <security:remember-me cookie-httponly="true" duration="3600" path="/remember-me"/>
+
+    <security:web-app-security source-filter="WssFilterChain">
+        <security:filter-chain filter-class="org.springframework.security.web.filter.WssFilterChain"
+                               supported-protocol="https"
+                               secure="true"
+                               context-path="/" />
+
+        <security:filter-chain filter-class="de.fliegende Automate Security Expressions Filter" />
+
+        <security:filter-chain filter-class="org.springframework.security.web.authentication.logout.LogoutFilter"
+                               logout-path="/logout"
+                               name="logout-filter"/>
+    </security:web-app-security>
+
+</beans:beans>
