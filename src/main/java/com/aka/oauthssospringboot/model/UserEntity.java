@@ -18,6 +18,9 @@ public class UserEntity {
     @Column(unique = true, nullable = false,name = "email")
     private String email;
 
+    @Column(unique = true, nullable = false,name = "user_name")
+    private String name;
+
     @Column(name = "password")
     private String passwordHash;
 
@@ -33,6 +36,13 @@ public class UserEntity {
     @Column(name = "google_uuid")
     private UUID google_uuid;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getUser_id() {
         return user_id;

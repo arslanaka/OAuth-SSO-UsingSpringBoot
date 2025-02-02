@@ -1,9 +1,11 @@
 package com.aka.oauthssospringboot.service;
 
 import com.aka.oauthssospringboot.model.UserEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface IUserDetailsService {
 
 
