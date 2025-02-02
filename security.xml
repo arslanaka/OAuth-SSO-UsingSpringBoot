@@ -9,7 +9,7 @@
     </beans:bean>
 
     <security:authentication-manager>
-        <security:anonymous-to-user-filter/>
+        <security:anonymous-to-userEntity-filter/>
     </security:authentication-manager>
 
     <security:context-patterns>

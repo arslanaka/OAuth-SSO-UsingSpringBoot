@@ -1,51 +1,54 @@
 package com.aka.oauthssospringboot.controller;
 
-import com.aka.oauthssospringboot.model.User;
+import com.aka.oauthssospringboot.model.UserEntity;
 import com.aka.oauthssospringboot.service.IUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class LoginController {
+@RestController
+public class UserController {
 
-    Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-
+    Logger logger = LoggerFactory.getLogger(UserController.class);
     private final IUserDetailsService userDetailsService;
 
 
-    public LoginController(IUserDetailsService userDetailsService) {
+    public UserController(IUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
 
 
-    public ResponseEntity<?> createNewUser(User user){
-        if (!validateUserData(user)){
+    @PostMapping("/create")
+    public ResponseEntity<?> createNewUser(UserEntity userEntity){
+
+        logger.info("Creating new user");
+
+        if (!validateUserData(userEntity)){
             return ResponseEntity.badRequest().body("Invalid user data");
         }
 
-        if (checkExistingUser(user)){
+        if (checkExistingUser(userEntity)){
             return ResponseEntity.badRequest().body("User already exists");
         }
-        userDetailsService.createNewUser(user);
+        userDetailsService.createNewUser(userEntity);
 
 
 
-
+        return ResponseEntity.ok().build();
     }
 
-    private boolean checkExistingUser(User user) {
-        User fetched_User = userDetailsService.getUser(user.getEmail());
-        if (fetched_User == null) {
+    private boolean checkExistingUser(UserEntity userEntity) {
+        UserEntity fetched_UserEntity = userDetailsService.getUser(userEntity.getEmail());
+        if (fetched_UserEntity == null) {
             return false;
         }
         return true;
     }
 
-    private boolean validateUserData(User user) {
+    private boolean validateUserData(UserEntity userEntity) {
 
         return false;
     }
